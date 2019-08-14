@@ -7,18 +7,19 @@ const router = require("express").Router();
 const trainFeeds = require("../data/trainFeeds");
 const stationsJson = require('../data/stations');
 
-const timeConverter = (UNIX_timestamp) =>{
+const timeConverter = (UNIX_timestamp) => {
     var a = new Date(UNIX_timestamp * 1000);
-    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var year = a.getFullYear();
     var month = months[a.getMonth()];
     var date = a.getDate();
     var hour = a.getHours();
     var min = a.getMinutes();
     var sec = a.getSeconds();
-    var time = date + ' ' + month + ' ' + year + ' ' + hour-4 + ':' + min + ':' + sec ;
+    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+    var tmpDate = new Date(`${month} ${data} ${hour}${min}${sec} GMT ${year}`);
     return time;
-  }
+}
 
 const getTrainTimes = async (trainId, stationId, feedId) => {
     try {
@@ -44,16 +45,22 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
             }
         });
         let desired = [];
-
         response.forEach(function (stop) {
             if (stop.stopTimeUpdate) {
-                console.log(stop)
+                //console.log(stop)
                 stop.stopTimeUpdate.forEach(function (id) {
                     if (id.stopId.includes(stationId)) {
+                        // let utcSeconds = parseInt(id.arrival.time);
+                        // let d = new Date(utcSeconds*1000); // The 0 there is the key, which sets the date to the epoch
+                        // console.log(d);
+                        var d = new Date(parseInt(id.arrival.time*1000));
+                        var utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
+                        var nd = new Date(utc + (3600000 * -4));
+                        //nd.toLocaleString();
                         const arr = {
                             routeId: stop.trip.routeId,
-                            arrival: timeConverter(parseInt(id.arrival.time)),
-                            departure: timeConverter(parseInt(id.departure.time)),
+                            arrival: nd.toLocaleString(),
+                            departure: nd.toLocaleString(),
                             stopId: id.stopId
                         }
                         desired.push(arr);
@@ -79,7 +86,6 @@ router.get('/:train/:station', async (req, res, next) => {
         try {
             let trainTimes = await getTrainTimes(train, station, trainFeeds[train]);
             res.status(200).json(trainTimes);
-           // console.log(timeConverter(1565808388));
         } catch (error) {
             console.log(error)
         }
