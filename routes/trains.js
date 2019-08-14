@@ -24,8 +24,8 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
     try {
         let { data } = await axios.request({
             method: "GET",
-            //url: `${apiURL}${feedId}`,
-            url: `http://datamine.mta.info/mta_esi.php?key=44dcad9783b36443a4469b36096fbf94&feed_id=16`,
+            url: `${apiURL}${feedId}`,
+            //url: `http://datamine.mta.info/mta_esi.php?key=44dcad9783b36443a4469b36096fbf94&feed_id=16`,
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Credentials": true,
