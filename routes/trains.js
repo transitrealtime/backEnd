@@ -6,6 +6,19 @@ const router = require("express").Router();
 const trainFeeds = require("../data/trainFeeds");
 const stationsJson = require('../data/stations');
 
+const timeConverter = (UNIX_timestamp) => {
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+    return time;
+}
+
 const getTrainTimes = async (trainId, stationId, feedId) => {
     try {
         let { data } = await axios.request({
@@ -39,10 +52,12 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
                         // let utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
                         // let nd = new Date(utc + (3600000 * -4));
                         // let minutes = (nd - new Date())/60000;
+                        let posixTime = parseInt(id.arrival.time);
+                        //let estData = new Date.UTC(posixTime);
+                        posixTime = timeConverter(posixTime);
                         const arr = {
                             routeId: stop.trip.routeId,
-                            // arrival: nd.toLocaleString(),
-                            // departure: nd.toLocaleString(),
+                            arrival: posixTime,
                             stopId: id.stopId,
                             stopName : stationName,
                             //minutesUntilArrival : minutes.toFixed(0) == 0 ? "Arriving Now" : minutes.toFixed(0) == 1 ? minutes.toFixed(0) + " min" : minutes.toFixed(0) + " mins"
