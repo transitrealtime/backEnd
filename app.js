@@ -6,14 +6,14 @@ const app = express();
 const user = require('./routes/user')
 
 app.use(cors());
-app.use('/user', user);
+app.use('/api/user', user);
 
 app.get('/', (req, res, next) => {
-    console.log("Default api route");
+    res.send("Default api route");
 })
 
-if(db) {
-    console.log("Database conneceted.");
+if(db) {        // Only app.listen if MongoDB is connected
+    console.log("Database connected.");
     app.listen(port, () => console.log(`Listening on port ${port}`));
 } else {
     console.log("Database not connected.");
