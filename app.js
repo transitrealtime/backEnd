@@ -19,7 +19,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //Mounts api router
-app.use('/api', apiRouter);
+app.use('/', apiRouter);
 
 
 //Throws an error if path is invalid

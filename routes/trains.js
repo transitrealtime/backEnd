@@ -69,7 +69,7 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
 
 
 router.get('/', (req, res, next) => {
-
+    res.status(200).send("go to /train/station");
 });
 
 router.get('/:train/:station', async (req, res, next) => {
