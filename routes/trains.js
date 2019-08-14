@@ -44,6 +44,8 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
                 response.push(entity.tripUpdate);
             }
         });
+        let stationName = stationsJson[stationId]['Stop Name'];
+        console.log(stationName);
         let desired = [];
         response.forEach(function (stop) {
             if (stop.stopTimeUpdate) {
@@ -56,14 +58,17 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
                         var d = new Date(parseInt(id.arrival.time*1000));
                         var utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
                         var nd = new Date(utc + (3600000 * -4));
+                        let minutes = (nd - new Date())/60000;
                         //nd.toLocaleString();
                         const arr = {
                             routeId: stop.trip.routeId,
                             arrival: nd.toLocaleString(),
                             departure: nd.toLocaleString(),
-                            stopId: id.stopId
+                            stopId: id.stopId,
+                            stopName : stationName,
+                            minutesUntilArrival : minutes.toFixed(0) == 0 ? "Arriving Now" : minutes.toFixed(0) == 1 ? minutes.toFixed(0) + " min" : minutes.toFixed(0) + " mins"
                         }
-                        desired.push(arr);
+                        if (minutes >= 0) desired.push(arr);
                     }
                 });
             }
