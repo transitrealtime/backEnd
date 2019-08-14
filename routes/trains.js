@@ -7,20 +7,6 @@ const router = require("express").Router();
 const trainFeeds = require("../data/trainFeeds");
 const stationsJson = require('../data/stations');
 
-const timeConverter = (UNIX_timestamp) => {
-    var a = new Date(UNIX_timestamp * 1000);
-    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var year = a.getFullYear();
-    var month = months[a.getMonth()];
-    var date = a.getDate();
-    var hour = a.getHours();
-    var min = a.getMinutes();
-    var sec = a.getSeconds();
-    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
-    var tmpDate = new Date(`${month} ${data} ${hour}${min}${sec} GMT ${year}`);
-    return time;
-}
-
 const getTrainTimes = async (trainId, stationId, feedId) => {
     try {
         let { data } = await axios.request({
@@ -49,17 +35,12 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
         let desired = [];
         response.forEach(function (stop) {
             if (stop.stopTimeUpdate) {
-                //console.log(stop)
                 stop.stopTimeUpdate.forEach(function (id) {
                     if (id.stopId.includes(stationId)) {
-                        // let utcSeconds = parseInt(id.arrival.time);
-                        // let d = new Date(utcSeconds*1000); // The 0 there is the key, which sets the date to the epoch
-                        // console.log(d);
-                        var d = new Date(parseInt(id.arrival.time*1000));
-                        var utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
-                        var nd = new Date(utc + (3600000 * -4));
+                        let d = new Date(parseInt(id.arrival.time*1000));
+                        let utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
+                        let nd = new Date(utc + (3600000 * -4));
                         let minutes = (nd - new Date())/60000;
-                        //nd.toLocaleString();
                         const arr = {
                             routeId: stop.trip.routeId,
                             arrival: nd.toLocaleString(),
