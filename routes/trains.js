@@ -35,17 +35,17 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
             if (stop.stopTimeUpdate) {
                 stop.stopTimeUpdate.forEach(function (id) {
                     if (id.stopId.includes(stationId)) {
-                        let d = new Date(parseInt(id.arrival.time*1000));
-                        let utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
-                        let nd = new Date(utc + (3600000 * -4));
-                        let minutes = (nd - new Date())/60000;
+                        // let d = new Date(parseInt(id.arrival.time*1000));
+                        // let utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
+                        // let nd = new Date(utc + (3600000 * -4));
+                        // let minutes = (nd - new Date())/60000;
                         const arr = {
                             routeId: stop.trip.routeId,
-                            arrival: nd.toLocaleString(),
-                            departure: nd.toLocaleString(),
+                            // arrival: nd.toLocaleString(),
+                            // departure: nd.toLocaleString(),
                             stopId: id.stopId,
                             stopName : stationName,
-                            minutesUntilArrival : minutes.toFixed(0) == 0 ? "Arriving Now" : minutes.toFixed(0) == 1 ? minutes.toFixed(0) + " min" : minutes.toFixed(0) + " mins"
+                            //minutesUntilArrival : minutes.toFixed(0) == 0 ? "Arriving Now" : minutes.toFixed(0) == 1 ? minutes.toFixed(0) + " min" : minutes.toFixed(0) + " mins"
                         }
                         if (minutes >= 0) desired.push(arr);
                     }
