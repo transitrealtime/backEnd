@@ -15,7 +15,18 @@ const timeConverter = (UNIX_timestamp) => {
     var hour = a.getHours();
     var min = a.getMinutes();
     var sec = a.getSeconds();
-    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+    let amOrPm = " AM";
+    if (hour > 12) {
+        hour -= 12;
+        amOrPm = " PM"
+    }
+    if (min < 10){
+        min = "0"+min;
+    }
+    if (sec < 10){
+        sec = "0"+sec;
+    }
+    var time = month + ' ' + date + ' ' + year + ' ' + hour + ':' + min + ':' + sec + amOrPm;
     return time;
 }
 
