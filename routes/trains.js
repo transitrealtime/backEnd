@@ -52,7 +52,7 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
                         // let utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
                         // let nd = new Date(utc + (3600000 * -4));
                         // let minutes = (nd - new Date())/60000;
-                        let posixTime = parseInt(id.arrival.time);
+                        let posixTime = parseInt(id.arrival.time-14400);
                         //let estData = new Date.UTC(posixTime);
                         posixTime = timeConverter(posixTime);
                         const arr = {
