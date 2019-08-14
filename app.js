@@ -4,6 +4,8 @@ const port = process.env.PORT || 3000;
 const db = require('./database/db')
 const app = express();
 const user = require('./routes/user')
+const apiRouter = require("./routes/index.js");
+app.use('/api', apiRouter);
 
 app.use(cors());
 app.use('/api/user', user);
