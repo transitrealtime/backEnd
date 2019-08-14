@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const stationsRouter = require("./stations");
 const trainsRouter = require("./trains");
+const userRouter = require('./user')
 
+router.use("/user", userRouter);
 router.use("/stations", stationsRouter);
 router.use("/trains", trainsRouter);
 
