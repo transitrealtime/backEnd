@@ -74,8 +74,6 @@ router.get('/:train/:station', async (req, res, next) => {
         } catch (error) {
             console.log(error)
         }
-
-
     } else {
         res.status(404).send("eror")
     }
