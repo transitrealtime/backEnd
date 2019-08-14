@@ -1,32 +1,23 @@
 const express = require('express');
 const cors = require('cors');
 const port = process.env.PORT || 3000;
-const bodyParser = require('body-parser');
-
-//Setup database
-const db = require('mongo');
-
-//Importing modules from routes.
-const apiRouter = require("./routes/index.js");
-
-//Express server
+const db = require('./database/db')
 const app = express();
-
-//Prevents blocking from cors policy
-app.use(cors());
-
-//Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
-app.use(bodyParser.json());
-
-//Mounts api router
+const user = require('./routes/user')
+const apiRouter = require("./routes/index.js");
 app.use('/api', apiRouter);
 
+app.use(cors());
+app.use('/api/user', user);
 
-//Throws an error if path is invalid
-app.get('/',(req,res,next) => {
-    res.status(404).send("not a valid path. use /api/trains or /api/stations");
-});
+app.get('/', (req, res, next) => {
+    res.send("Default api route");
+})
 
+if(db) {        // Only app.listen if MongoDB is connected
+    console.log("Database connected.");
+    app.listen(port, () => console.log(`Listening on port ${port}`));
+} else {
+    console.log("Database not connected.");
+}
 
-//Listens to a port
-app.listen(port, () => console.log(`Listening on port ${port}`));
