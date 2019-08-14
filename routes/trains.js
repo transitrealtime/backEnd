@@ -47,7 +47,7 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
                             stopName : stationName,
                             //minutesUntilArrival : minutes.toFixed(0) == 0 ? "Arriving Now" : minutes.toFixed(0) == 1 ? minutes.toFixed(0) + " min" : minutes.toFixed(0) + " mins"
                         }
-                        if (minutes >= 0) desired.push(arr);
+                        desired.push(arr);
                     }
                 });
             }
