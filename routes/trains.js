@@ -1,4 +1,3 @@
-
 const axios = require('axios');
 const GtfsRealtimeBindings = require('gtfs-realtime-bindings');
 const apiKey = '44dcad9783b36443a4469b36096fbf94';

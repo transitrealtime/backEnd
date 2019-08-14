@@ -3,10 +3,13 @@ const cors = require('cors');
 const port = process.env.PORT || 3000;
 const db = require('./database/db')
 const app = express();
-const apiRouter = require('./routes')
+const apiRouter = require('./routes');
+const bodyParser = require('body-parser');
 
 //Prevents blocking from cors policy
 app.use(cors());
+
+app.use(bodyParser.json());
 
 //Mounts api router
 app.use('/', apiRouter);
