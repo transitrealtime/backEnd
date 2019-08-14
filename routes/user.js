@@ -6,7 +6,6 @@ const auth = require('../middleware/auth')
 
 user.use(bodyParser.json());
 
-
 user.get('/', async(req, res, next) => {
     try{
         const users = await User.find()
