@@ -69,7 +69,8 @@ router.get('/:train/:station', async (req, res, next) => {
     if (train in trainFeeds && station in stationsJson) {
         try {
             let trainTimes = await getTrainTimes(train, station, trainFeeds[train]);
-            res.status(200).send(`${train},${station}`);
+            console.log(trainTimes);
+            res.status(200).json(trainTimes);
         } catch (error) {
             console.log(error)
         }
