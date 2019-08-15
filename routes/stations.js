@@ -1,5 +1,5 @@
-const apiKey = '44dcad9783b36443a4469b36096fbf94';
-const apiURL = `https://cors-anywhere.herokuapp.com/http://datamine.mta.info/mta_esi.php?key=${apiKey}&feed_id=`;
+require('dotenv').config()
+const apiURL = `https://cors-anywhere.herokuapp.com/http://datamine.mta.info/mta_esi.php?key=${process.env.API_KEY}&feed_id=`;
 const router = require("express").Router();
 const stationsJson = require('../data/stations');
 
