@@ -36,19 +36,24 @@ stationId = ID found in `/data/stations`
 `/user`
 
 @POST Create new user with the following json body 
+```
 {
   "username": "Test",
   "password": "test",
   "email": "test@gmail.com
 }
-  
+ ```
+ 
  `/user/login`
  
  @POST Login with the following json body, will return with user info and jwt token if successful 
+ 
+ ```
  {
   "username": "Test",
   "password": "test"
  }
+```
 
 @POST Logout currently logged in user. Route will only work if logged in.
 
