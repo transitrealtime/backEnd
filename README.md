@@ -59,3 +59,19 @@ stationId = ID found in `/data/stations`
 
 `/user/logout`
 
+@GET Get specified user's favorite trains
+
+`/favorite/:id/trains`
+
+@GET Get specified uer's favorite stations
+
+`/favorite/:id/stations`
+
+@PUT Add a favorite train to user profile
+
+`/favorite/:id/train/:train`
+
+@PUT Add a favorite station to user profile
+
+`/favorite/:id/station/:station`
+
