@@ -1,9 +1,11 @@
 const router = require("express").Router();
 const stationsRouter = require("./stations");
 const trainsRouter = require("./trains");
-const userRouter = require('./user')
+const userRouter = require('./user');
+const twitterRouter = require('./twitter');
 
 router.use("/user", userRouter);
+router.use("/tweets", twitterRouter);
 router.use("/stations", stationsRouter);
 router.use("/trains", trainsRouter);
 
