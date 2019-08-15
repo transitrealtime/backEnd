@@ -22,7 +22,7 @@ user.get('/', async(req, res, next) => {
 
 user.get('/:id', async(req, res, next) => {
     try {
-        const user = await User.findOne({_id: req.params.id})
+        const user = await User.findById(req.params.id)
         if(user) {
             res.status(200).json(user);
         } else {

@@ -3,6 +3,7 @@ const validator = require('validator')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 
 const userSchema = mongoose.Schema({
     username: {
@@ -24,13 +25,8 @@ const userSchema = mongoose.Schema({
             }
         }
     },
-    trains: {
-        type:Array,
-        unique:true
-    },
-    stations: {
-        type:Array
-    },
+    trains: [String], 
+    stations: [String],
     tokens: [{
         token: {
             type: String,
