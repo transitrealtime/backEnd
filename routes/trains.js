@@ -53,25 +53,22 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
             }
         });
         let stationName = stationsJson[stationId]['Stop Name'];
-        console.log(stationName);
         let desired = [];
         response.forEach(function (stop) {
             if (stop.stopTimeUpdate) {
                 stop.stopTimeUpdate.forEach(function (id) {
                     if (id.stopId.includes(stationId)) {
-                        // let d = new Date(parseInt(id.arrival.time*1000));
-                        // let utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
-                        // let nd = new Date(utc + (3600000 * -4));
-                        // let minutes = (nd - new Date())/60000;
                         let posixTime = parseInt(id.arrival.time-14400);
-                        //let estData = new Date.UTC(posixTime);
+                        let currentTime = Date.now();
+                        let arrivalTime = (id.arrival.time*1000 - currentTime)/60000;
                         posixTime = timeConverter(posixTime);
+                        let postfix = arrivalTime.toFixed(0) > 1 ? " Mins" : " Min";
                         const arr = {
                             routeId: stop.trip.routeId,
                             arrival: posixTime,
                             stopId: id.stopId,
                             stopName : stationName,
-                            //minutesUntilArrival : minutes.toFixed(0) == 0 ? "Arriving Now" : minutes.toFixed(0) == 1 ? minutes.toFixed(0) + " min" : minutes.toFixed(0) + " mins"
+                            minutesArrival : arrivalTime.toFixed(0) != 0 ? arrivalTime.toFixed(0) + postfix : "Arriving Now"
                         }
                         desired.push(arr);
                     }
@@ -95,7 +92,6 @@ router.get('/:train/:station', async (req, res, next) => {
     if (train in trainFeeds && station in stationsJson) {
         try {
             let trainTimes = await getTrainTimes(train, station, trainFeeds[train]);
-            console.log(trainTimes);
             res.status(200).json(trainTimes);
         } catch (error) {
             console.log(error)
