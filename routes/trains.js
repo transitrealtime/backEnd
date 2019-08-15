@@ -5,6 +5,7 @@ const apiURL = `http://datamine.mta.info/mta_esi.php?key=${process.env.API_KEY}&
 const router = require("express").Router();
 const trainFeeds = require("../data/trainFeeds");
 const stationsJson = require('../data/stations');
+const stationTrains = require("../data/trainStops")
 
 const timeConverter = (UNIX_timestamp) => {
     var a = new Date(UNIX_timestamp * 1000);
@@ -88,13 +89,38 @@ router.get('/', (req, res, next) => {
     res.status(200).send("go to /train/station");
 });
 
+const filterTrain = id => {
+    filteredTrain = [];
+    let trainStops = stationTrains[id];
+    console.log(trainStops);
+    for (let station of Object.values(trainStops)){
+        for (let stationId of Object.keys(stationsJson)){
+            if (station === stationsJson[stationId]["Stop Name"]){
+                filteredTrain.push({"stationName" : station, "stationId" : stationId});
+                break;
+            }
+        }
+    }
+    return filteredTrain;
+
+}
+router.get('/:train', (req, res, next) => {
+    let trainId = req.params.train.toUpperCase();
+    if (trainId in trainFeeds){
+        res.status(200).json(filterTrain(trainId));
+    }
+});
+
 router.get('/:train/:station', async (req, res, next) => {
     let train = req.params.train.toUpperCase();
     let station = req.params.station.toUpperCase();
     if (train in trainFeeds && station in stationsJson) {
         try {
             let trainTimes = await getTrainTimes(train, station, trainFeeds[train]);
-            res.status(200).json(trainTimes);
+            if (trainTimes) res.status(200).json(trainTimes);
+            else{
+                res.status(404).send("MTA API DOWN. Try again in a few minutes.");
+            }
         } catch (error) {
             console.log(error)
         }
