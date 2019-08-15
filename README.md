@@ -75,3 +75,10 @@ stationId = ID found in `/data/stations`
 
 `/favorite/:id/station/:station`
 
+@PUT Remove a station the user favorited
+
+`/favorite/:id/station/:station/remove`
+
+@PUT Remove a train the user favorited
+
+`/favorite/:id/train/:train/remove`
