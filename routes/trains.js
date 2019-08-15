@@ -53,7 +53,8 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
             }
         });
         let stationName = stationsJson[stationId]['Stop Name'];
-        let desired = [];
+        let desiredNorth = [];
+        let desiredSouth = [];
         response.forEach(function (stop) {
             if (stop.stopTimeUpdate) {
                 stop.stopTimeUpdate.forEach(function (id) {
@@ -68,14 +69,15 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
                             arrival: posixTime,
                             stopId: id.stopId,
                             stopName : stationName,
+                            posixTime : parseInt(id.arrival.time-14400),
                             minutesArrival : arrivalTime.toFixed(0) != 0 ? arrivalTime.toFixed(0) + postfix : "Arriving Now"
                         }
-                        desired.push(arr);
-                    }
+                        id.stopId[id.stopId.length -1] == "N" ? desiredNorth.push(arr) : desiredSouth.push(arr);
+                    } 
                 });
             }
         })
-        return desired;
+        return {"Northbound" :desiredNorth.sort((a,b) => {return a.posixTime - b.posixTime}),"Southbound" : desiredSouth.sort((a,b) => {return a.posixTime - b.posixTime})};
     } catch (err) {
         console.log(err.response);
     }
