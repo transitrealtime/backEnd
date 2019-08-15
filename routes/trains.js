@@ -77,7 +77,7 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
                 });
             }
         })
-        return {"Northbound" :desiredNorth.sort((a,b) => {return a.posixTime - b.posixTime}),"Southbound" : desiredSouth.sort((a,b) => {return a.posixTime - b.posixTime})};
+        return {"northBound" : desiredNorth.sort((a,b) => {return a.posixTime - b.posixTime}),"southBound" : desiredSouth.sort((a,b) => {return a.posixTime - b.posixTime})};
     } catch (err) {
         console.log(err.response);
     }
