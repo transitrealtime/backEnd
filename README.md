@@ -15,4 +15,4 @@ Gets specific station information
 
 trainId = Train Number or Letter e.g (1,2,3,N,Q,R)
 
-stationId = ID found in /data/stations
+stationId = ID found in `/data/stations`
