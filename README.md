@@ -3,8 +3,16 @@ https://mta-real-time.herokuapp.com/
 
 # Usage
 `/stations`
+
 Gets all stations in the MTA system
 
+`/stations/${stationId}`
+
+Gets specific station information 
+
+
 `trains/${trainId}/${stationId}`
+
 trainId = Train Number or Letter e.g (1,2,3,N,Q,R)
+
 stationId = ID found in /data/stations
