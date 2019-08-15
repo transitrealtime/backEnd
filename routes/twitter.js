@@ -1,14 +1,15 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser')
 const twitter = express.Router();
-const Twit = require('twit')
+const Twit = require('twit');
 twitter.use(bodyParser.json());
 
 const T = new Twit({
-    consumer_key: 'JGRhs9VYsfzfMAwY5H9lBs0Bn',
-    consumer_secret: 'OVUjd1Oh0YWRyW3OwRLpH9PT1TePldXoI5f4CQJUOKgyEbiUj6',
-    access_token: '83479892-Hc8x5H0ZEIXNDHZNWtEzKtUcrDUXXHDE3f3Z4WOVR',
-    access_token_secret: 's15irRpvX0j1YB9N6Ao1ZznjKlIh1t0GTDT7GmK0JFVVk',
+    consumer_key: process.env.CONSUMER_KEY,
+    consumer_secret: process.env.CONSUMER_SECRET,
+    access_token: process.env.ACCESS_TOKEN,
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET,
     timeout_ms: 60 * 1000,
     strictSSL: true
 })
