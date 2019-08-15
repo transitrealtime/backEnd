@@ -1,7 +1,7 @@
+require('dotenv').config();
 const axios = require('axios');
 const GtfsRealtimeBindings = require('gtfs-realtime-bindings');
-const apiKey = '44dcad9783b36443a4469b36096fbf94';
-const apiURL = `http://datamine.mta.info/mta_esi.php?key=${apiKey}&feed_id=`;
+const apiURL = `http://datamine.mta.info/mta_esi.php?key=${process.env.API_KEY}&feed_id=`;
 const router = require("express").Router();
 const trainFeeds = require("../data/trainFeeds");
 const stationsJson = require('../data/stations');
