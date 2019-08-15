@@ -24,6 +24,25 @@ favorite.put('/:id/train/:train', async(req, res, next) => {
     }
 })
 
+favorite.put('/:id/train/:train/remove', async(req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if(user) {
+            await User.findByIdAndUpdate(
+                req.params.id,
+                {$pull:
+                    {trains: req.params.train}
+                },
+            )   
+            res.status(200).send("Removed a train.")
+        } else {
+            res.status(400).send("User does not exist.");
+        }
+    } catch(err) {
+        res.status(400).send(err);
+    }
+})
+
 favorite.put('/:id/station/:station', async(req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
@@ -35,6 +54,25 @@ favorite.put('/:id/station/:station', async(req, res, next) => {
                 },
             )   
             res.status(200).send("Added station.")
+        } else {
+            res.status(400).send("User does not exist.");
+        }
+    } catch(err) {
+        res.status(400).send(err);
+    }
+})
+
+favorite.put('/:id/station/:station/remove', async(req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if(user) {
+            await User.findByIdAndUpdate(
+                req.params.id,
+                {$pull:
+                    {stations: req.params.station}
+                },
+            )   
+            res.status(200).send("Removed a station.")
         } else {
             res.status(400).send("User does not exist.");
         }
