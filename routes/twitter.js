@@ -30,14 +30,17 @@ twitter.get('/', async(req, res, next) => {
 
 twitter.post('/update', async(req,res,next) => {
     try{
-        await Tweet.deleteMany();
-        await T.get('statuses/user_timeline', {screen_name:'NYCTSubway', count: 10, include_rts:false, exclude_replies:true}, (err, data, response) => {
+        // await Tweet.deleteMany();
+        await T.get('statuses/user_timeline', {screen_name:'NYCTSubway', count: 20, include_rts:false, exclude_replies:true}, (err, data, response) => {
             for(let i = 0; i < data.length; i++) {
-                const text = {text: data[i].text}
+                const text = {
+                    text: data[i].text,
+                    date: data[i].created_at
+                }
                 const tweet = new Tweet(text);
                 tweet.save();
             }
-            res.status(200).send("Information Updated.");
+            res.status(200).send(data);
         })
     } catch(err) {
         res.status(400).send(err); 

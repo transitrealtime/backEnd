@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 mongoose.set('useCreateIndex', true);
 
 const tweetSchema = mongoose.Schema({
+    date: {
+        type:String,
+        required:true,
+        unique:true
+    },
     text: {
         type: String,
         required: true,
