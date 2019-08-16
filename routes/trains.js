@@ -92,7 +92,6 @@ router.get('/', (req, res, next) => {
 const filterTrain = id => {
     filteredTrain = [];
     let trainStops = stationTrains[id];
-    console.log(trainStops);
     for (let station of Object.values(trainStops)){
         for (let stationId of Object.keys(stationsJson)){
             if (station === stationsJson[stationId]["Stop Name"]){
