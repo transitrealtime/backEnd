@@ -94,15 +94,18 @@ const filterTrain = id => {
     let trainStops = stationTrains[id];
     //console.log(trainStops);
     for (let station of Object.values(trainStops)){
-        let found = false;
+        //let found = false;
         for (let stationId of Object.keys(stationsJson)){
             if (station === stationsJson[stationId]["Stop Name"]){
-                filteredTrain.push({"stationName" : station, "stationId" : stationId});
-                found = true;
-                break;
+                //found = true;
+                let dayTimeRoutes = stationsJson[stationId]["Daytime Routes"];
+                if ( dayTimeRoutes == id || (typeof dayTimeRoutes != "number" && dayTimeRoutes.split(" ").includes(id))){
+                    filteredTrain.push({"stationName" : station, "stationId" : stationId});
+                    break;
+                }
             }
         }
-        if (!found) console.log(station);
+        //if (!found) console.log(station);
     }
     return filteredTrain;
 
