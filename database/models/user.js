@@ -25,8 +25,6 @@ const userSchema = mongoose.Schema({
             }
         }
     },
-    trains: [String], 
-    stations: [String],
     tokens: [{
         token: {
             type: String,
