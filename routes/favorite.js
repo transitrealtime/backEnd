@@ -87,7 +87,7 @@ favorite.get('/:id/trains', async(req, res, next) => {
         const user = await User.findById(req.params.id);
         if(user) {
             const favorite_trains = await User.findById(req.params.id, 'trains');
-            res.status(200).send(favorite_trains)
+            res.status(200).send(favorite_trains.trains)
         } else {
             res.status(400).send("User does not exist.");
         }
@@ -101,7 +101,7 @@ favorite.get('/:id/stations', async(req, res, next) => {
         const user = await User.findById(req.params.id);
         if(user) {
             const favorite_trains = await User.findById(req.params.id, 'stations');
-            res.status(200).send(favorite_trains)
+            res.status(200).send(favorite_trains.stations)
         } else {
             res.status(400).send("User does not exist.");
         }
