@@ -25,6 +25,14 @@ const userSchema = mongoose.Schema({
             }
         }
     },
+    trains: {
+        type:[String],
+        default:undefined
+    },
+    stations: {
+        type:[String],
+        default:undefined
+    },
     tokens: [{
         token: {
             type: String,
