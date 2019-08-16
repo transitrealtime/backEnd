@@ -703,7 +703,7 @@ module.exports = {
       "19": "Canal St",
       "20": "City Hall",
       "21": "Cortlandt St",
-      "22": "Rector St & Trinity Pl",
+      "22": "Rector St",
       "23": "Whitehall St",
       "24": "Court St",
       "25": "Jay St - MetroTech",

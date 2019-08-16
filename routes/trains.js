@@ -92,9 +92,12 @@ router.get('/', (req, res, next) => {
 const filterTrain = id => {
     filteredTrain = [];
     let trainStops = stationTrains[id];
+    //console.log(trainStops);
     for (let station of Object.values(trainStops)){
+        //let found = false;
         for (let stationId of Object.keys(stationsJson)){
             if (station === stationsJson[stationId]["Stop Name"]){
+                //found = true;
                 let dayTimeRoutes = stationsJson[stationId]["Daytime Routes"];
                 if ( dayTimeRoutes == id || (typeof dayTimeRoutes != "number" && dayTimeRoutes.split(" ").includes(id))){
                     filteredTrain.push({"stationName" : station, "stationId" : stationId});
@@ -102,6 +105,7 @@ const filterTrain = id => {
                 }
             }
         }
+        //if (!found) console.log(station);
     }
     return filteredTrain;
 
