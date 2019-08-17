@@ -73,7 +73,7 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
                             posixTime : parseInt(id.arrival.time-14400),
                             minutesArrival : arrivalTime.toFixed(0) != 0 ? arrivalTime.toFixed(0) + postfix : "Arriving Now"
                         }
-                        if (minutesArrival > 0) id.stopId[id.stopId.length -1] == "N" ? desiredNorth.push(arr) : desiredSouth.push(arr);
+                        if (arrivalTime.toFixed(0) > 0) id.stopId[id.stopId.length -1] == "N" ? desiredNorth.push(arr) : desiredSouth.push(arr);
                     } 
                 });
             }
