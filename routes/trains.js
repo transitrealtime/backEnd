@@ -100,7 +100,7 @@ const filterTrain = id => {
                 //found = true;
                 let dayTimeRoutes = stationsJson[stationId]["Daytime Routes"];
                 if ( dayTimeRoutes == id || (typeof dayTimeRoutes != "number" && dayTimeRoutes.split(" ").includes(id))){
-                    filteredTrain.push({"stationName" : station, "stationId" : stationId});
+                    filteredTrain.push({"stationName" : station, "stationId" : stationId, "trainRoutes" : dayTimeRoutes});
                     break;
                 }
             }
