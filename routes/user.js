@@ -71,7 +71,7 @@ user.post('/logout', auth, async(req, res, next) => {
         await req.user.save()
         res.send()
     } catch(err) {
-        res.status(500).send(error);
+        res.status(500).send(err);
     }
 })
 
