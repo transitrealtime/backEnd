@@ -145,7 +145,7 @@ const getAllNow = async (feedId) => {
                                         stopName: stationsJson[stationId][`Stop Name`],
                                         bound: id.stopId.substring(id.stopId.length - 1),
                                         latitude: stationsJson[stationId]["GTFS Latitude"],
-                                        Longitude: stationsJson[stationId]["GTFS Longitude"],
+                                        longitude: stationsJson[stationId]["GTFS Longitude"],
                                         train: stop.trip.routeId
                                     }
                                     desired.push(arr);
