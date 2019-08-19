@@ -1,9 +1,11 @@
 require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const moment = require('moment');
 const twitter = express.Router();
 const Twit = require('twit')
 const Tweet = require('../database/models/tweets')
+
 twitter.use(bodyParser.json());
 
 const T = new Twit({
@@ -17,7 +19,7 @@ const T = new Twit({
 
 twitter.get('/', async(req, res, next) => {
     try {
-        const info = await Tweet.find();
+        const info = await Tweet.find().sort('-date');
         if(info) {
             res.status(200).send(info);
         } else {
@@ -30,12 +32,11 @@ twitter.get('/', async(req, res, next) => {
 
 twitter.post('/update', async(req,res,next) => {
     try{
-        // await Tweet.deleteMany();
         await T.get('statuses/user_timeline', {screen_name:'NYCTSubway', count: 20, include_rts:false, exclude_replies:true}, (err, data, response) => {
             for(let i = 0; i < data.length; i++) {
                 const text = {
                     text: data[i].text,
-                    date: data[i].created_at
+                    timestamp: data[i].created_at
                 }
                 const tweet = new Tweet(text);
                 tweet.save();
