@@ -74,7 +74,7 @@ const getTrainTimes = async (trainId, stationId, feedId) => {
                             posixTime: parseInt(id.arrival.time - 14400),
                             minutesArrival: arrivalTime.toFixed(0) != 0 ? arrivalTime.toFixed(0) + postfix : "Arriving Now"
                         }
-                        if (arrivalTime.toFixed(0) > 0) id.stopId[id.stopId.length - 1] == "N" ? desiredNorth.push(arr) : desiredSouth.push(arr);
+                        if (arrivalTime.toFixed(0) >= 0) id.stopId[id.stopId.length - 1] == "N" ? desiredNorth.push(arr) : desiredSouth.push(arr);
                     }
                 });
             }
@@ -137,16 +137,15 @@ const getAllNow = async (feedId) => {
                     if (id.arrival != null) {
                         let currentTime = Date.now();
                         let arrivalTime = (id.arrival.time * 1000 - currentTime) / 60000;
-                        if (arrivalTime.toFixed(0) <= 0) {
+                        if (arrivalTime.toFixed(0) == 0) {
                             for (let stationId of Object.keys(stationsJson)) {
                                 if(stationId === id.stopId.substring(0,id.stopId.length-1)){
-                                    console.log(stationsJson[stationId]["GTFS Longitude"])
                                     const arr = {
                                         stationId: id.stopId.substring(0, id.stopId.length - 1),
                                         stopName: stationsJson[stationId][`Stop Name`],
                                         bound: id.stopId.substring(id.stopId.length - 1),
                                         latitude: stationsJson[stationId]["GTFS Latitude"],
-                                        Longitude: stationsJson[stationId]["GTFS Longitude"],
+                                        longitude: stationsJson[stationId]["GTFS Longitude"],
                                         train: stop.trip.routeId
                                     }
                                     desired.push(arr);
