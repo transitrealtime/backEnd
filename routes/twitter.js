@@ -19,7 +19,7 @@ const T = new Twit({
 
 twitter.get('/', async(req, res, next) => {
     try {
-        const info = await Tweet.find().sort('-date');
+        const info = await Tweet.find();
         if(info) {
             res.status(200).send(info);
         } else {
@@ -34,14 +34,15 @@ twitter.post('/update', async(req,res,next) => {
     try{
         await T.get('statuses/user_timeline', {screen_name:'NYCTSubway', count: 20, include_rts:false, exclude_replies:true}, (err, data, response) => {
             for(let i = data.length-1; i >= 0; i--) {
-                const text = {
+                let twitter_feed = {
                     text: data[i].text,
                     timestamp: data[i].created_at
                 }
-                const tweet = new Tweet(text);
-                tweet.save();
+                let twitter_feeds = new Tweet(twitter_feed);
+                twitter_feeds.save();
+                
             }
-            res.status(200).send(data);
+            res.status(200).send("Successfully updated DB with new tweets.")
         })
     } catch(err) {
         res.status(400).send(err); 
