@@ -7,6 +7,11 @@ const tweetSchema = mongoose.Schema({
         required:true,
         unique:true
     },
+    timestamp: {
+        type:String,
+        required:true,
+        unique:true
+    },
     text: {
         type: String,
         required: true,

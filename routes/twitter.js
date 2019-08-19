@@ -1,9 +1,11 @@
 require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const moment = require('moment');
 const twitter = express.Router();
 const Twit = require('twit')
 const Tweet = require('../database/models/tweets')
+
 twitter.use(bodyParser.json());
 
 const T = new Twit({
@@ -17,7 +19,7 @@ const T = new Twit({
 
 twitter.get('/', async(req, res, next) => {
     try {
-        const info = await Tweet.find();
+        const info = await Tweet.find().sort('-date');
         if(info) {
             res.status(200).send(info);
         } else {
@@ -35,7 +37,8 @@ twitter.post('/update', async(req,res,next) => {
             for(let i = 0; i < data.length; i++) {
                 const text = {
                     text: data[i].text,
-                    date: data[i].created_at
+                    date: moment(data[i].created_at).format('dddd MMMM D, YYYY'),
+                    timestamp: moment(data[i].created_at).startOf('hour').fromNow()
                 }
                 const tweet = new Tweet(text);
                 tweet.save();
