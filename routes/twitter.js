@@ -33,7 +33,7 @@ twitter.get('/', async(req, res, next) => {
 twitter.post('/update', async(req,res,next) => {
     try{
         await T.get('statuses/user_timeline', {screen_name:'NYCTSubway', count: 20, include_rts:false, exclude_replies:true}, (err, data, response) => {
-            for(let i = 0; i < data.length; i++) {
+            for(let i = data.length-1; i >= 0; i++) {
                 const text = {
                     text: data[i].text,
                     timestamp: data[i].created_at
