@@ -110,6 +110,11 @@ const filterTrain = id => {
     return filteredTrain;
 
 }
+
+router.get('/now', (req, res, next) => {
+    res.status(200).send("go to /train/station");
+});
+
 router.get('/:train', (req, res, next) => {
     let trainId = req.params.train.toUpperCase();
     if (trainId in trainFeeds){
