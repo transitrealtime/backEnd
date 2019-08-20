@@ -35,10 +35,10 @@ favorite.post('/:id/:station', async(req, res, next) => {
 favorite.put('/:id/:station', async(req, res, next) => {
     try {
         const salt_id = await md5Hex(req.params.id)
-        const device_id = await Device.findSaltDevice(salt_id);
-        if(device_id) {
+        const device = await Device.findSaltDevice(salt_id);
+        if(device) {
             await Device.findOneAndUpdate(
-                device_id,
+                {deveiceid:device.device_id},
                 {$pull:
                     {stations: req.params.station}
                 },
