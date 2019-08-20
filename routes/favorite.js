@@ -34,7 +34,8 @@ favorite.post('/:id/:station', async(req, res, next) => {
 
 favorite.put('/:id/:station', async(req, res, next) => {
     try {
-        const device_id = await Device.findSaltDevice(req.params.id);
+        const salt_id = await md5Hex(req.params.id)
+        const device_id = await Device.findSaltDevice(salt_id);
         if(device_id) {
             await Device.findOneAndUpdate(
                 device_id,
@@ -53,7 +54,8 @@ favorite.put('/:id/:station', async(req, res, next) => {
 
 favorite.get('/:id/stations', async(req, res, next) => {
     try {
-        const device = await Device.findSaltDevice(req.params.id);
+        const salt_id = await md5Hex(req.params.id)
+        const device = await Device.findSaltDevice(salt_id);
         if(device) {
             const favorite_stations = await Device.findOne(device, 'stations');
             res.status(200).send(favorite_stations.stations)
