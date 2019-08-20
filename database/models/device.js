@@ -10,6 +10,7 @@ const deviceSchema = mongoose.Schema({
     },
     stations: {
         type:[String],
+        unique:true,
         default:undefined
     },
 })

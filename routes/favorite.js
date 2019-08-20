@@ -30,7 +30,7 @@ favorite.post('/:id/:station', async(req, res, next) => {
     }
 })
 
-favorite.put('/:id/remove', async(req, res, next) => {
+favorite.put('/:id/:station', async(req, res, next) => {
     try {
         const device_id = await Device.findOne({deviceid:req.params.id});
         if(device_id) {
