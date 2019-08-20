@@ -1,95 +1,48 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const favorite = express.Router();
-const User = require('../database/models/user')
+const Device = require('../database/models/device')
 
 favorite.use(bodyParser.json());
 
-favorite.put('/:id/train/:train', async(req, res, next) => {
+favorite.post('/:id/:station', async(req, res, next) => {
     try {
-        const user = await User.findById(req.params.id);
-        if(user) {
-            await User.findByIdAndUpdate(
-                req.params.id,
-                {$push:
-                    {trains: req.params.train}
-                },
-            )   
-            res.status(200).send("Added train.")
-        } else {
-            res.status(400).send("User does not exist.");
-        }
-    } catch(err) {
-        res.status(400).send(err);
-    }
-})
-
-favorite.put('/:id/train/:train/remove', async(req, res, next) => {
-    try {
-        const user = await User.findById(req.params.id);
-        if(user) {
-            await User.findByIdAndUpdate(
-                req.params.id,
-                {$pull:
-                    {trains: req.params.train}
-                },
-            )   
-            res.status(200).send("Removed a train.")
-        } else {
-            res.status(400).send("User does not exist.");
-        }
-    } catch(err) {
-        res.status(400).send(err);
-    }
-})
-
-favorite.put('/:id/station/:station', async(req, res, next) => {
-    try {
-        const user = await User.findById(req.params.id);
-        if(user) {
-            await User.findByIdAndUpdate(
-                req.params.id,
+        const device_id = await Device.findOne({deviceid :req.params.id});
+        if(device_id) {
+            await Device.findOneAndUpdate(
+                {deviceid:req.params.id},
                 {$push:
                     {stations: req.params.station}
                 },
             )   
             res.status(200).send("Added station.")
         } else {
-            res.status(400).send("User does not exist.");
+            let device = {
+                deviceid: req.params.id,
+                stations: req.params.station
+            }
+            const new_device = new Device(device);
+            await new_device.save();
+            res.status(201).send(new_device);
         }
     } catch(err) {
         res.status(400).send(err);
     }
 })
 
-favorite.put('/:id/station/:station/remove', async(req, res, next) => {
+favorite.put('/:id/remove', async(req, res, next) => {
     try {
-        const user = await User.findById(req.params.id);
-        if(user) {
-            await User.findByIdAndUpdate(
-                req.params.id,
+        const device_id = await Device.findOne({deviceid:req.params.id});
+        if(device_id) {
+            await Device.findOneAndUpdate(
+                {deviceid:req.params.id},
                 {$pull:
                     {stations: req.params.station}
                 },
             )   
             res.status(200).send("Removed a station.")
         } else {
-            res.status(400).send("User does not exist.");
-        }
-    } catch(err) {
-        res.status(400).send(err);
-    }
-})
-
-
-favorite.get('/:id/trains', async(req, res, next) => {
-    try {
-        const user = await User.findById(req.params.id);
-        if(user) {
-            const favorite_trains = await User.findById(req.params.id, 'trains');
-            res.status(200).send(favorite_trains.trains)
-        } else {
-            res.status(400).send("User does not exist.");
+            res.status(400).send("Device id does not exist.");
         }
     } catch(err) {
         res.status(400).send(err);
@@ -98,12 +51,12 @@ favorite.get('/:id/trains', async(req, res, next) => {
 
 favorite.get('/:id/stations', async(req, res, next) => {
     try {
-        const user = await User.findById(req.params.id);
-        if(user) {
-            const favorite_trains = await User.findById(req.params.id, 'stations');
-            res.status(200).send(favorite_trains.stations)
+        const device = await Device.findOne({deviceid:req.params.id});
+        if(device) {
+            const favorite_stations = await Device.findOne({deviceid:req.params.id}, 'stations');
+            res.status(200).send(favorite_stations.stations)
         } else {
-            res.status(400).send("User does not exist.");
+            res.status(400).send("Device id does not exist.");
         }
     } catch(err) {
         res.status(400).send(err);
