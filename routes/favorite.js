@@ -1,16 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const favorite = express.Router();
+const md5Hex = require('md5-hex');
 const Device = require('../database/models/device')
 
 favorite.use(bodyParser.json());
 
 favorite.post('/:id/:station', async(req, res, next) => {
     try {
-        const device_id = await Device.findOne({deviceid :req.params.id});
-        if(device_id) {
+        const salt_id = await md5Hex(req.params.id)
+        const device = await Device.findSaltDevice(salt_id);
+        if(device) {
             await Device.findOneAndUpdate(
-                {deviceid:req.params.id},
+                {deveiceid:device.device_id},
                 {$push:
                     {stations: req.params.station}
                 },
@@ -32,10 +34,10 @@ favorite.post('/:id/:station', async(req, res, next) => {
 
 favorite.put('/:id/:station', async(req, res, next) => {
     try {
-        const device_id = await Device.findOne({deviceid:req.params.id});
+        const device_id = await Device.findSaltDevice(req.params.id);
         if(device_id) {
             await Device.findOneAndUpdate(
-                {deviceid:req.params.id},
+                device_id,
                 {$pull:
                     {stations: req.params.station}
                 },
@@ -51,14 +53,14 @@ favorite.put('/:id/:station', async(req, res, next) => {
 
 favorite.get('/:id/stations', async(req, res, next) => {
     try {
-        const device = await Device.findOne({deviceid:req.params.id});
+        const device = await Device.findSaltDevice(req.params.id);
         if(device) {
-            const favorite_stations = await Device.findOne({deviceid:req.params.id}, 'stations');
+            const favorite_stations = await Device.findOne(device, 'stations');
             res.status(200).send(favorite_stations.stations)
         } else {
             res.status(400).send("Device id does not exist.");
         }
-    } catch(err) {
+    } catch(err) {  
         res.status(400).send(err);
     }
 })
