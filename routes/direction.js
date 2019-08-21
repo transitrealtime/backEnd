@@ -24,7 +24,8 @@ const getGoogleData = async(origin,destination) => {
                             trainColor: step.transit_details.line.color,
                             train: step.transit_details.line.short_name,
                             startLocation: { latitude: step.start_location.lat, longitude: step.start_location.lng },
-                            endLocation: { latitude: step.end_location.lat, longitude: step.end_location.lng }
+                            endLocation: { latitude: step.end_location.lat, longitude: step.end_location.lng },
+                            trainTime:{arrivalTime: step.transit_details.arrival_time.text, departureTime: step.transit_details.departure_time.text}
                         }
                     })
                     trains+=`${step.transit_details.line.short_name} `
