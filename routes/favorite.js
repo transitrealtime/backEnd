@@ -6,7 +6,7 @@ const Device = require('../database/models/device')
 
 favorite.use(bodyParser.json());
 
-favorite.post('/:id/:station', async(req, res, next) => {
+favorite.post('/:id/:station(*)', async(req, res, next) => {
     try {
         const salt_id = await md5Hex(req.params.id)
         const device = await Device.findSaltDevice(salt_id);
@@ -32,7 +32,7 @@ favorite.post('/:id/:station', async(req, res, next) => {
     }
 })
 
-favorite.put('/:id/:station', async(req, res, next) => {
+favorite.put('/:id/:station(*)', async(req, res, next) => {
     try {
         const salt_id = await md5Hex(req.params.id)
         const device = await Device.findSaltDevice(salt_id);
