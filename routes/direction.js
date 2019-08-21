@@ -63,7 +63,7 @@ direction.get('/:origin/:destination', async (req, res, next) =>{
         let data = await getGoogleData(origin,destination);
         res.status(200).send(data);
     }catch(err){
-        res.statu(404).send("Bad Request")
+        res.status(404).send("Bad Request")
     }
 });
 
