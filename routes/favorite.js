@@ -12,7 +12,7 @@ favorite.post('/:id/:station', async(req, res, next) => {
         const device = await Device.findSaltDevice(salt_id);
         if(device) {
             await Device.findOneAndUpdate(
-                {deveiceid:device.device_id},
+                {deviceid:device.deviceid},
                 {$push:
                     {stations: req.params.station}
                 },
@@ -38,7 +38,7 @@ favorite.put('/:id/:station', async(req, res, next) => {
         const device = await Device.findSaltDevice(salt_id);
         if(device) {
             await Device.findOneAndUpdate(
-                {deveiceid:device.device_id},
+                {deviceid:device.deviceid},
                 {$pull:
                     {stations: req.params.station}
                 },
