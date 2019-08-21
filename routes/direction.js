@@ -13,6 +13,8 @@ const getGoogleData = async(origin,destination) => {
             let trains = "";
             route.legs[0].steps.forEach(step => {
                 if (step.transit_details) {
+                    let decoded =[];
+                    decodePolyline(step.polyline.points).forEach(Element=>decoded.push({latitude:Element.lat,longitude:Element.lng}));
                     stepData.push({
                         instructions: step.html_instructions,
                         duration: step.duration.text,
@@ -25,6 +27,7 @@ const getGoogleData = async(origin,destination) => {
                             train: step.transit_details.line.short_name,
                             startLocation: { latitude: step.start_location.lat, longitude: step.start_location.lng },
                             endLocation: { latitude: step.end_location.lat, longitude: step.end_location.lng },
+                            polyLine: decoded,
                             trainTime:{arrivalTime: step.transit_details.arrival_time.text, departureTime: step.transit_details.departure_time.text}
                         }
                     })
@@ -48,6 +51,8 @@ const getGoogleData = async(origin,destination) => {
                     trains+="Walk "
                 }
             })
+            let decoded =[];
+            decodePolyline(route.overview_polyline.points).forEach(Element=>decoded.push({latitude:Element.lat,longitude:Element.lng}));
             directions.push({
                 routeStart: route.legs[0].start_address,
                 routeEnd: route.legs[0].end_address,
@@ -56,7 +61,7 @@ const getGoogleData = async(origin,destination) => {
                 tripDuration: route.legs[0].duration.text,
                 steps: stepData,
                 path: trains.substring(0,trains.length-1).split(" "),
-                polyLine: decodePolyline(route.overview_polyline.points)
+                polyLine: decoded
             })
         })
         return directions;
