@@ -33,15 +33,10 @@ const getGoogleData = async(origin,destination) => {
                     })
                     trains+=`${step.transit_details.line.short_name} `
                 } else {
-                    let subStepData=[];
-                    step.steps.forEach(subStep=>{
-                        subStepData.push({
-                            startLocation: { latitude: subStep.start_location.lat, longitude: subStep.start_location.lng },
-                            endLocation: { latitude: subStep.end_location.lat, longitude: subStep.end_location.lng },      
-                        })
-                    })
+                    let decoded =[];
+                    decodePolyline(step.polyline.points).forEach(Element=>decoded.push({latitude:Element.lat,longitude:Element.lng}));
                     stepData.push({
-                        steps: subStepData,
+                        polyline: decoded,
                         instructions: step.html_instructions,
                         duration: step.duration.text,
                         transitType: step.travel_mode,
