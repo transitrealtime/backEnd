@@ -88,7 +88,7 @@ Sample Response:
 @GET Gets train time info based on trainID and stationID
 Sample Request:
 ```
-https://mta-real-time.herokuapp.com/trains/6/$601
+https://mta-real-time.herokuapp.com/trains/6/601
 ```
 Sample Response:
 ```
