@@ -44,7 +44,7 @@ twitter.post('/update', async(req,res,next) => {
                 twitter_feeds.save();
                 
             }
-            res.status(200).send(data)
+            res.status(200).send('Updated.')
         })
     } catch(err) {
         res.status(400).send(err); 
