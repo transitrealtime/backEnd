@@ -19,7 +19,7 @@ const T = new Twit({
 
 twitter.get('/', async(req, res, next) => {
     try {
-        const info = await Tweet.find().sort({date:1, time:1});
+        const info = await Tweet.find().sort({date:1, timestamp:1});
         if(info) {
             res.status(200).send(info);
         } else {
